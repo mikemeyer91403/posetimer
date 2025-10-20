@@ -18,7 +18,7 @@ posetimer.py <path to image directory>
 Probably will be using Pillow and TKinter, playsound for sound playback
 
 # Roadmap TO MVP
-1. commmand line argument handling
+1. command line argument handling
 2. set default values for ordering, folder path, length of pose, window size
 1. set up image viewer and ability to display single image  (initial selection is 
 2. set up basic file list structure 
