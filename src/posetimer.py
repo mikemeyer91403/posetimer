@@ -3,8 +3,17 @@
 # 
 import tkinter as tk
 import os
+import argparse
 from PIL import Image, ImageTk
 from sequencer import SequenceType
+
+def configure_parser(parser, default_duration, default_path):
+    parser.add_argument("-d", "--duration", type=int, default = default_duration, help="number of seconds to display each image (default: %(default)s) ")
+    group = parser.add_mutually_exclusive_group(required=False)
+    group.add_argument("-r","--random", action ="store_true", help="cycle through images in random order")
+    group.add_argument("-l", "--loop", action ="store_true", help="loop images in directory order")
+    group.add_argument("-o", "--once", action ="store_true", default=True, help="cycle through images once (default mode)")
+    parser.add_argument("--ipath", nargs="?", default=default_path, help="path to directory with images to display (default: %(default)s)")  
 
 def main():
 
@@ -18,7 +27,29 @@ def main():
     sequenceType = defaultSequenceType
     currentImage = 'images/test1.png'
 
+    parser = argparse.ArgumentParser()
+    configure_parser(parser, defaultPoseDuration, defaultImagePath)
+    # parser.add_argument("-d", "--duration", type=int, default = defaultPoseDuration, help="number of seconds to display each image (default: %(default)s) ")
+    # group = parser.add_mutually_exclusive_group(required=False)
+    # group.add_argument("-r","--random", action ="store_true", help="cycle through images in random order")
+    # group.add_argument("-l", "--loop", action ="store_true", help="loop images in directory order")
+    # group.add_argument("-o", "--once", action ="store_true", default=True, help="cycle through images once (default mode)")
+    # parser.add_argument("--ipath", nargs="?", default="./images", help="path to directory with images to display (default: %(default)s)")
+    args = parser.parse_args()
+    print (args)
 
+    if args.duration:
+        poseDuration = args.duration
+    if args.ipath:
+        currentPath = args.ipath
+    if args.random:
+        sequenceType = SequenceType.RANDOM
+    elif args.loop:
+        sequenceType = SequenceType.LOOP
+    else:
+        sequenceType = SequenceType.ONCE
+
+    print(f"Duration: {poseDuration}\nSequenceType:{sequenceType}\nimagePathRoot:{currentPath}")
 
 
     # setting up the canvas
