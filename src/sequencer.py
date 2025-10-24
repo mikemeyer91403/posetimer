@@ -1,14 +1,17 @@
 from enum import Enum
-from random import randint
+import random
 
 class SequenceType(Enum):
     LOOP = "loop"       #plays over and over
     ONCE = "once"       #plays the list once
     RANDOM = "random"   # select a random image
 
+
 class Sequencer():
 
-
+# I don't think sequencer needs to know much about play lists, 
+# I want it to just tell us the next file, and to return None if there isn't one.
+# the file_list is literally just file names or abspaths
 
     def __init__(self, type, file_list, duration=30, name=None):
         self.type = type     #SequenceType for the playlist
@@ -30,7 +33,11 @@ class Sequencer():
     def first_file(self):
         if len(self.files) != 0:
             return self.files[0]
+        else:
+            return None
     
+# I think this is messed up, this seems to assume you use 
+#first file and then 
 
     def next_file(self):
         if self.type == SequenceType.RANDOM:
@@ -38,17 +45,17 @@ class Sequencer():
                 rand = random.choice(self.files)
             else:
                 rand = None
-            #TODO: come up with random function
             return rand
         if self.type == SequenceType.LOOP:
-            self.currentIndex += 1
-            if self.currentIndex == len(self.files):
-                self.currentIndex = 0
-            return self.files[self.currentIndex]
+            self.currentindex += 1
+            if self.currentindex == len(self.files):
+                self.currentindex = 0
+            return self.files[self.currentindex]
         if self.type == SequenceType.ONCE:
-            self.currentIndex +=1
-            if self.currentIndex == len(self.files):
+            self.currentindex +=1
+            if self.currentindex == len(self.files):
                 return None
+            return self.files[self.currentindex]
             
 
 
