@@ -22,12 +22,14 @@ class Sequencer():
         self.files = file_list
         self.duration = duration
         self.name = name  #this is a placeholder for named lists
-        self.currentindex = 0
+        self.currentIndex = 0
 
     def __repr__(self):
         return f"Sequencer: name={self.name}, type={self.type}, duration={self.duration}\n {len(self.files)} files:{self.files}"
 
     def num_files(self):
+        #print (f"numfiles: {len(self.files)}")
+        #print(self.files)
         return len(self.files)
     
     def first_file(self):
@@ -47,15 +49,17 @@ class Sequencer():
                 rand = None
             return rand
         if self.type == SequenceType.LOOP:
-            self.currentindex += 1
-            if self.currentindex == len(self.files):
-                self.currentindex = 0
-            return self.files[self.currentindex]
+            if self.currentIndex == len(self.files):
+                self.currentIndex = 0
+            next = self.files[self.currentIndex]
+            self.currentIndex += 1
+            return next
         if self.type == SequenceType.ONCE:
-            self.currentindex +=1
-            if self.currentindex == len(self.files):
+            if self.currentIndex == len(self.files):
                 return None
-            return self.files[self.currentindex]
+            next = self.files[self.currentIndex]
+            self.currentIndex += 1
+            return next
             
 
 
