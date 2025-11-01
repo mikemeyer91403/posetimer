@@ -21,8 +21,11 @@ options:
                         ./images)
 ```
 
+
+
 # Installation instructions:
-(tbd)
+1. Install Pillow and TKinter
+2. place the images you want to 
 Probably will be using Pillow and TKinter, playsound for sound playback
 
 # Roadmap TO MVP
