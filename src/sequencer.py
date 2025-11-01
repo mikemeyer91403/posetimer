@@ -4,7 +4,8 @@ import random
 class SequenceType(Enum):
     LOOP = "loop"       #plays over and over
     ONCE = "once"       #plays the list once
-    RANDOM = "random"   # select a random image
+    RANDOM = "random"   # select a random image; this loops indefinitely
+    #TODO: perhaps a random once feature that just picks one image at random?
 
 
 class Sequencer():
@@ -34,16 +35,17 @@ class Sequencer():
     
     def first_file(self):
         if len(self.files) != 0:
+            self.currentIndex = 1
             return self.files[0]
         else:
             return None
     
-# I think this is messed up, this seems to assume you use 
-#first file and then 
 
     def next_file(self):
         if self.type == SequenceType.RANDOM:
             if (len(self.files)!= 0):
+                #TODO: maybe make sure that we don't repeat
+                # same image twice (except if single image list)
                 rand = random.choice(self.files)
             else:
                 rand = None

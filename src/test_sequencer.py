@@ -50,3 +50,12 @@ class TestSequencer(unittest.TestCase):
         for i in range(6):
             next = seq.next_file(); print(next)
             self.assertIsNotNone(next) 
+
+
+    def test_first_then_next(self):
+        file_list = ["file1.jpg", "file2.jpg", "file3.jpg", "file4.jpg"]
+        seq = Sequencer(SequenceType.ONCE, file_list)  
+        next = seq.first_file()
+        self.assertEqual(next, "file1.jpg")
+        next = seq.next_file()
+        self.assertNotEqual(next,"file1.jpg")

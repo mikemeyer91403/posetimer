@@ -95,6 +95,9 @@ def main():
     ####################################################################
     sequencer = Sequencer(sequenceType, playlist.imagePaths, poseDuration)
 
+    # Start value for the countdown
+    timeRemaining = poseDuration
+
     # setting up the canvas
     root = tk.Tk()
     root.title("Pose Timer")
@@ -109,18 +112,19 @@ def main():
     if(currentImage == None):
         import sys; sys.exit()
     def update_screen(currentImage):
-        try: 
-            print(f"Opening {os.path.abspath(currentImage)}")
-            with Image.open(currentImage) as pil_image:
-                print(f"Image {currentImage}:  {pil_image.size}")
-            # TODO: we'll want to get the image size and scale it to fit canvas size if needed.
-                tk_image = ImageTk.PhotoImage(pil_image)
-                canvas.create_image(10,10, image = tk_image, anchor = tk.NW)
-                canvas.image = tk_image # keeping a reference for later
-        except FileNotFoundError:
-            print(f"Error: file \'{currentImage}\' not found. Please provide valid image path and name.")
-        currentImage = sequencer.next_file()
-        root.after((1000 * poseDuration),update_screen, currentImage)
+        if (currentImage != None):
+            try: 
+                print(f"Opening {os.path.abspath(currentImage)}")
+                with Image.open(currentImage) as pil_image:
+                    print(f"Image {currentImage}:  {pil_image.size}")
+                # TODO: we'll want to get the image size and scale it to fit canvas size if needed.
+                    tk_image = ImageTk.PhotoImage(pil_image)
+                    canvas.create_image(10,10, image = tk_image, anchor = tk.NW)
+                    canvas.image = tk_image # keeping a reference for later
+            except FileNotFoundError:
+                print(f"Error: file \'{currentImage}\' not found. Please provide valid image path and name.")
+            currentImage = sequencer.next_file()
+            root.after((1000 * poseDuration),update_screen, currentImage)
 
     update_screen(currentImage)
 
