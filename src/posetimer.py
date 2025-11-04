@@ -7,6 +7,7 @@ import argparse
 from PIL import Image, ImageTk
 from sequencer import SequenceType, Sequencer
 from playlist import PlayList
+from resizer import fit_image
 
 #configure_parser
 # sets up the argparse parser behavior
@@ -19,14 +20,19 @@ def configure_parser(parser, default_duration, default_path):
     parser.add_argument("--ipath", nargs="?", default=default_path, help="path to directory with images to display (default: %(default)s)")  
 
 
+
 def present_new_image(root, canvas, sequencer, poseDuration):
+    #TODO: this code didn't work, and probably goes away once I've put in
+    # the more complete inline update display code.
     #canvas.create_image(10,10, image = None, anchor = tk.NW)
+    c = tk.Canvas(canvas)
     nextImg = sequencer.next_file()
     if (nextImg != None):
         try: 
             print(f"Opening {os.path.abspath(nextImg)}")
             with Image.open(nextImg) as pil_image:
                 print(f"Image {nextImg}:  {pil_image.size}")
+                print(f"Canvas size: {c.winfo_width()}, {c.winfo_height()}")
         # TODO: we'll want to get the image size and scale it to fit canvas size if needed.
                 tk_image = ImageTk.PhotoImage(pil_image)
                 canvas.create_image(10,10, image = tk_image, anchor = tk.NW)
@@ -103,8 +109,10 @@ def main():
     root.title("Pose Timer")
     label = tk.Label(root, text ="Pose Timer")
     label.pack(pady=10)
-    canvas = tk.Canvas(root, width=1000, height = 1000, bg = "lightgray")
-    canvas.pack(pady=10)
+    canvas = tk.Canvas(root, width=1000, height = 1500, bg = "lightgray")
+    #TODO: there's apparently a way to use pack(fill=BOTH, expand=YES)
+    #canvas.pack(pady=10)
+    canvas.pack(fill="both", expand=True)
 
    # present_new_image(root,canvas,sequencer,poseDuration)
 
@@ -112,12 +120,23 @@ def main():
     if(currentImage == None):
         import sys; sys.exit()
     def update_screen(currentImage):
+        #TODO: This method also needs to update timer countdown, and reset to poseDuration when it rolls over
+        # plan is to tick every second and update the image part when countdown hits zero, then reset countdown
+        #before recalling root.after
         if (currentImage != None):
             try: 
                 print(f"Opening {os.path.abspath(currentImage)}")
                 with Image.open(currentImage) as pil_image:
+                    canvas_size = (canvas.winfo_reqwidth(), canvas.winfo_reqheight())
                     print(f"Image {currentImage}:  {pil_image.size}")
-                # TODO: we'll want to get the image size and scale it to fit canvas size if needed.
+                    print(f"Canvas size: {canvas.winfo_reqwidth()}, {canvas.winfo_reqheight()}")
+                    
+                # TODO: this may be a naive way to handle tk canvas, and canvas might
+                # not be the best/lightest way to display image, given we aren't drawing on it
+                    oldsize = pil_image.size
+                    newsize = fit_image(oldsize, canvas_size)
+                    pil_image = pil_image.resize(newsize)
+
                     tk_image = ImageTk.PhotoImage(pil_image)
                     canvas.create_image(10,10, image = tk_image, anchor = tk.NW)
                     canvas.image = tk_image # keeping a reference for later

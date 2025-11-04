@@ -65,8 +65,8 @@ class TestPlaylist(unittest.TestCase):
            expectedPaths.append(os.path.join(os.path.abspath("testimg/list1"),file))
         imagePaths.sort()
         imageNames.sort()
-        print(f"Expected:{expectedPaths}")
-        print(f"Actual:{imagePaths}")
+        #print(f"Expected:{expectedPaths}")
+        #print(f"Actual:{imagePaths}")
         self.assertEqual(imagePaths ,expectedPaths)
         self.assertEqual(imageNames, filenames)
 
