@@ -11,13 +11,15 @@ from resizer import fit_image
 
 #configure_parser
 # sets up the argparse parser behavior
-def configure_parser(parser, default_duration, default_path):
+def configure_parser(parser, default_duration, default_path, default_width, default_height):
     parser.add_argument("-d", "--duration", type=int, default = default_duration, help="number of seconds to display each image (default: %(default)s) ")
     group = parser.add_mutually_exclusive_group(required=False)
     group.add_argument("-r","--random", action ="store_true", help="cycle through images in random order")
     group.add_argument("-l", "--loop", action ="store_true", help="loop images in directory order")
     group.add_argument("-o", "--once", action ="store_true", default=True, help="cycle through images once (default mode)")
     parser.add_argument("--ipath", nargs="?", default=default_path, help="path to directory with images to display (default: %(default)s)")  
+    parser.add_argument("-w", "--width", type=int, default=default_width, help="canvas width in pixels (default: %(default)s) ")
+    parser.add_argument("-hh", "--height", type=int, default=default_height, help="canvas height in pixels (default: %(default)s) ")
 
 
 
@@ -40,7 +42,10 @@ def present_new_image(root, canvas, sequencer, poseDuration):
         except FileNotFoundError:
             print(f"Error: file \'{nextImg}\' not found. Please provide valid image path and name.")
 
-
+def timestring(remainingSeconds):
+    sec = remainingSeconds % 60
+    min = remainingSeconds / 60
+    return (f"{min}:{sec}")
 
 
 def main():
@@ -49,20 +54,24 @@ def main():
     defaultImagePath = "./images"
     defaultPoseDuration = 5
     defaultSequenceType = SequenceType.ONCE
+    defaultHeight = 1600
+    defaultWidth = 1200
 
     currentPath = defaultImagePath
     poseDuration = defaultPoseDuration
     sequenceType = defaultSequenceType
     currentImage = 'images/test1.png'
+    currentHeight = defaultHeight
+    currentWidth = defaultWidth
 
     ####################################################################
     #Command line parsing
     ####################################################################
 
     parser = argparse.ArgumentParser()
-    configure_parser(parser, defaultPoseDuration, defaultImagePath)
+    configure_parser(parser, defaultPoseDuration, defaultImagePath, defaultWidth, defaultHeight)
     args = parser.parse_args()
-    #TODO: can supress this print once more testing is done
+    #TODO: can suppress this print once more testing is done
     print (args)
     ####################################################################
     # process any overrides from the command line
@@ -81,6 +90,12 @@ def main():
     else:
         sequenceType = SequenceType.ONCE
 
+    if args.width:
+        currentWidth = args.width
+    if args.height:
+        currentHeight = args.height
+    
+
     #TODO: This is also active for troubleshooting
     print(f"Duration: {poseDuration}\nSequenceType:{sequenceType}\nimagePathRoot:{currentPath}")
 
@@ -91,8 +106,8 @@ def main():
     ####################################################################
     playlist = PlayList(currentPath)
     playlist.load()
-    if playlist.image_count == 0:
-        print(f"Error: no images in directory {playlist.fullPath}")
+    if playlist.image_count() == 0:
+        print(f"Error: no images in directory {playlist.absBasePath}")
         import sys; sys.exit()
 
 
@@ -109,8 +124,8 @@ def main():
     root.title("Pose Timer")
     label = tk.Label(root, text ="Pose Timer")
     label.pack(pady=10)
-    canvas = tk.Canvas(root, width=1000, height = 1500, bg = "lightgray")
-    #TODO: there's apparently a way to use pack(fill=BOTH, expand=YES)
+
+    canvas = tk.Canvas(root, width=currentWidth, height = currentHeight, bg = "lightgray")
     #canvas.pack(pady=10)
     canvas.pack(fill="both", expand=True)
 
@@ -120,6 +135,8 @@ def main():
     if(currentImage == None):
         import sys; sys.exit()
     def update_screen(currentImage):
+
+
         #TODO: This method also needs to update timer countdown, and reset to poseDuration when it rolls over
         # plan is to tick every second and update the image part when countdown hits zero, then reset countdown
         #before recalling root.after

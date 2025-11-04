@@ -18,6 +18,8 @@ class TestResizer(unittest.TestCase):
     # if image aspect is larger, we fit to canvas width
     # if image aspect is smaller, we fit to canvas height
 
+    # case 5: we treat square as a fit to height case, but it is likely rare for this content
+
     def test_square_canvas_portrait(self):
         resize = fit_image((100,300), (600,600))
         self.assertEqual(resize[0],200)
@@ -37,4 +39,13 @@ class TestResizer(unittest.TestCase):
         resize = fit_image((3000,3000), (600,600))
         self.assertEqual(resize[0],600)
         self.assertEqual(resize[1], 600)
+
+
+#TODO: further test cases for 
+# landscape to landscape shrink, grow
+# portrait to portrait shrink, grow
+# landscape fitting in portrait window, grow
+# landscape fitting in portrait window, shrink
+# portrait fitting in landscape window, grow
+# portrait fitting in landscape window, shrink
 
