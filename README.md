@@ -29,7 +29,7 @@ Probably will be using Pillow and TKinter, playsound for sound playback
 1. ~~command line argument handling~~
 2. ~~set default values for ordering, folder path, length of pose, window size~~
 1. ~~set up image viewer and ability to display single image  (initial selection is in ./images)~~
-2. ~~set up basic file list structure ~~
+2. ~~set up basic file list structure~~
 3. ~~implement timed sequence from test file list~~
 4. ~~build file list from directory argument~~
 5. ~~files in directory order~~
