@@ -84,9 +84,9 @@ def is_image(abspath, filename):
     filepath = os.path.join(abspath, filename)
     if not os.path.isfile(filepath) or not os.path.exists(filepath):
         return False
-    nameparts = filename.split(".", maxsplit=1)
+    nameparts = filename.split(".")
     if len(nameparts)>1:
-        ext = nameparts[1]
+        ext = nameparts[len(nameparts)-1]
     else:
         return False
     if ext in valid_ext:
