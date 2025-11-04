@@ -26,19 +26,25 @@ options:
 Probably will be using Pillow and TKinter, playsound for sound playback
 
 # Roadmap TO MVP
-1. command line argument handling
-2. set default values for ordering, folder path, length of pose, window size
-1. set up image viewer and ability to display single image  (initial selection is in ./images)
-2. set up basic file list structure 
-3. implement timed sequence from test file list
-4. build file list from directory argument
-5. files in directory order
-6. assure that files are images, skip non-image file
-7. file list sequencer and random mode
+1. ~~command line argument handling~~
+2. ~~set default values for ordering, folder path, length of pose, window size~~
+1. ~~set up image viewer and ability to display single image  (initial selection is in ./images)~~
+2. ~~set up basic file list structure ~~
+3. ~~implement timed sequence from test file list~~
+4. ~~build file list from directory argument~~
+5. ~~files in directory order~~
+6. ~~assure that files are images, skip non-image file~~
+7. ~~file list sequencer (once, loop and random mode)~~
+8. Add GUI titles for countdown timer and current file name
+9. Refactor update_screen() to manage countdown as well as image changes.
+10. Add command line args for screen size, and set a sensible default in code.
+11. Update the posetimer.py script to pass args
+12. build a second test script which runs through different command line args
+11. Further functional testing with local images.
 
 # Extensions
 1. set default values for ordering, folder path, number of seconds or minutes in .poserc file
-2. update display window to use tkinter GUI
+2. ~~update display window to use tkinter GUI~~
 3. play sound when image changes and 80% point in pose
 4. use tkinter to provide enhanced GUI layout
 5. GUI Add large countdown timer
