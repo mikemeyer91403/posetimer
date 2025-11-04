@@ -50,9 +50,10 @@ class TestPlaylist(unittest.TestCase):
        
 
     def test_image_count_filter(self):
+        # Note: change count if you have to add test cases to the list2 directory
         pl = PlayList("./testimg/list2")
         pl.load()
-        self.assertEqual(pl.image_count(), 6)
+        self.assertEqual(pl.image_count(), 7)
 
     def test_get_directory_list(self):
         self.maxDiff = None
@@ -76,11 +77,19 @@ class TestPlaylist(unittest.TestCase):
         self.assertTrue(is_image(os.path.abspath("./testimg/list2"), "img4.png"))
         self.assertTrue(is_image(os.path.abspath("./testimg/list2"), "img5.jpeg"))
         self.assertTrue(is_image(os.path.abspath("./testimg/list2"), "img6.gif"))
+        self.assertTrue(is_image(os.path.abspath("./testimg/list2"), "Screen Shot 2021-06-30 at 9.42.05 PM.png"))
 
 
         self.assertFalse(is_image(os.path.abspath("./testimg/list2"), "list0"))  #directory
         self.assertFalse(is_image(os.path.abspath("./testimg/list2"), "README.md"))
         self.assertFalse(is_image(os.path.abspath("./testimg/list2"), "doesntexist"))
+        self.assertFalse(is_image(os.path.abspath("./testimg/list2"), "noextension"))
+        self.assertFalse(is_image(os.path.abspath("./testimg/list2"), "random.txt"))
+        self.assertFalse(is_image(os.path.abspath("./testimg/list2"), "yomama.tip"))
+        self.assertFalse(is_image(os.path.abspath("./testimg/list2"), "hoohah.json"))
+
+
+
 
 
         
