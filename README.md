@@ -8,17 +8,18 @@ While the user will be able to select any duration for the images,  in general t
 
 # Syntax:
 ```
-usage: posetimer.py [-h] [-d DURATION] [-r | -l | -o] [--ipath [IPATH]]
+usage: posetimer.py [-h] [-d DURATION] [-r | -l | -o] [--ipath [IPATH]] [-w WIDTH] [-hh HEIGHT]
 
 options:
   -h, --help            show this help message and exit
   -d, --duration DURATION
-                        number of seconds to display each image (default: 12)
+                        number of seconds to display each image (default: 5)
   -r, --random          cycle through images in random order
   -l, --loop            loop images in directory order
   -o, --once            cycle through images once (default mode)
-  --ipath [IPATH]       path to directory with images to display (default:
-                        ./images)
+  --ipath [IPATH]       path to directory with images to display (default: ./images)
+  -w, --width WIDTH     canvas width in pixels (default: 1200)
+  -hh, --height HEIGHT  canvas height in pixels (default: 1600)
 ```
 
 # Installation instructions:
@@ -32,26 +33,26 @@ Probably will be using Pillow and TKinter, playsound for sound playback
 2. ~~set up basic file list structure~~
 3. ~~implement timed sequence from test file list~~
 4. ~~build file list from directory argument~~
-5. ~~files in directory order~~
-6. ~~assure that files are images, skip non-image file~~
-7. ~~file list sequencer (once, loop and random mode)~~
-8. Add GUI titles for countdown timer and current file name
-9. Refactor update_screen() to manage countdown as well as image changes.
-10. Add command line args for screen size, and set a sensible default in code.
-11. Update the posetimer.py script to pass args
-12. build a second test script which runs through different command line args
+5. ~~update display window to use tkinter GUI~~
+6. ~~files in directory order~~
+7. ~~assure that files are images, skip non-image file~~
+8. ~~file list sequencer (once, loop and random mode)~~
+9. Add GUI titles for countdown timer and current file name
+10. Refactor update_screen() to manage countdown as well as image changes.
+11. ~~Add command line args for screen size, and set a sensible default in code.~~
+12. Update the posetimer.py script to pass args
+13. build a second test script which runs through different command line args
 11. Further functional testing with local images.
 
 # Extensions
 1. set default values for ordering, folder path, number of seconds or minutes in .poserc file
-2. ~~update display window to use tkinter GUI~~
+2. incorporate a GUI file picker to select folder
 3. play sound when image changes and 80% point in pose
 4. use tkinter to provide enhanced GUI layout
 5. GUI Add large countdown timer
 6. in directory mode, show 1 of n counter
 7. Enhanced transition between images if needed (crossfade)
 8. show list of poses and current image name?
-9. incorporate a GUI file picker
 10. enhanced file list management - multiple list management, and named lists
 11. save file lists/directories in .poserc
 12. build custom file list across directories?
