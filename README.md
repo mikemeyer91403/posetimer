@@ -27,7 +27,7 @@ options:
 
 ## Dependencies
 I recommend that one builds this in a python venv, as there are some version dependencies
-between Tkinder and different versions of python.  I had some issues installing on my Mac running Tahoe because the version of Python they ship with MacOS was not compatible with the most recent Tcl/Tk releases.  Apple's python gets the frameworks from Command Line Tools distribution, so if you've manually installed tkinder it will be put somewhere else.  Check out `INSTALL.md` for some tips, including Windows and Linux.
+between Tkinter and different versions of python.  I had some issues installing on my Mac running Tahoe because the version of Python they ship with MacOS was not compatible with the most recent Tcl/Tk releases.  Apple's python gets the frameworks from Command Line Tools distribution, so if you've manually installed Tkinter it will be put somewhere else.  Check out `INSTALL.md` for some tips, including Windows and Linux.
 
 To set up a venv (on the Mac, the syntax for Windows is different):
 ```
