@@ -1,1 +1,1 @@
-python3 src/posetimer.py
+python3 src/posetimer.py "$@"

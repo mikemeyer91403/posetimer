@@ -22,32 +22,14 @@ def configure_parser(parser, default_duration, default_path, default_width, defa
     parser.add_argument("-hh", "--height", type=int, default=default_height, help="canvas height in pixels (default: %(default)s) ")
 
 
-
-def present_new_image(root, canvas, sequencer, poseDuration):
-    #TODO: this code didn't work, and probably goes away once I've put in
-    # the more complete inline update display code.
-    #canvas.create_image(10,10, image = None, anchor = tk.NW)
-    c = tk.Canvas(canvas)
-    nextImg = sequencer.next_file()
-    if (nextImg != None):
-        try: 
-            print(f"Opening {os.path.abspath(nextImg)}")
-            with Image.open(nextImg) as pil_image:
-                print(f"Image {nextImg}:  {pil_image.size}")
-                print(f"Canvas size: {c.winfo_width()}, {c.winfo_height()}")
-        # TODO: we'll want to get the image size and scale it to fit canvas size if needed.
-                tk_image = ImageTk.PhotoImage(pil_image)
-                canvas.create_image(10,10, image = tk_image, anchor = tk.NW)
-            #root.after((poseDuration * 1000), present_new_image,root,canvas,sequencer,poseDuration)
-        except FileNotFoundError:
-            print(f"Error: file \'{nextImg}\' not found. Please provide valid image path and name.")
-
 def timestring(remainingSeconds):
-    sec = remainingSeconds % 60
-    min = remainingSeconds / 60
-    return (f"{min}:{sec}")
+    sec =int( remainingSeconds % 60)
+    min = int(remainingSeconds / 60)
+    return (f"{min}:{sec:02d}")
 
-
+########################################################
+######  Main
+########################################################
 def main():
 
     # These are our default values
@@ -122,30 +104,37 @@ def main():
     # setting up the canvas
     root = tk.Tk()
     root.title("Pose Timer")
-    label = tk.Label(root, text ="Pose Timer")
-    label.pack(pady=10)
+    timerLabel = tk.Label(root, text ="Pose Timer")
+    timerLabel.pack(pady=10)
+
 
     canvas = tk.Canvas(root, width=currentWidth, height = currentHeight, bg = "lightgray")
     #canvas.pack(pady=10)
     canvas.pack(fill="both", expand=True)
 
-   # present_new_image(root,canvas,sequencer,poseDuration)
+    imageLabel = tk.Label(root, text = "Image Name")
+    imageLabel.pack(pady=10)
 
     currentImage = sequencer.first_file()
     if(currentImage == None):
         import sys; sys.exit()
-    def update_screen(currentImage):
 
-
-        #TODO: This method also needs to update timer countdown, and reset to poseDuration when it rolls over
-        # plan is to tick every second and update the image part when countdown hits zero, then reset countdown
-        #before recalling root.after
-        if (currentImage != None):
+    #####
+    ##### Inline Screen Update
+    #####
+    def update_screen(currentImage, timerLabel, imageLabel, poseDuration, remainingSeconds):
+        #print (f"update_screen: {currentImage} {remainingSeconds}")
+        timerLabel.config (text = timestring(remainingSeconds))
+        shortImageName = ''
+        if currentImage:
+            shortImageName = os.path.split(currentImage)[1]
+        finished = False
+        if (currentImage != None and remainingSeconds == 0):
             try: 
                 print(f"Opening {os.path.abspath(currentImage)}")
                 with Image.open(currentImage) as pil_image:
                     canvas_size = (canvas.winfo_reqwidth(), canvas.winfo_reqheight())
-                    print(f"Image {currentImage}:  {pil_image.size}")
+                    print(f"Image {shortImageName}:  {pil_image.size}")
                     print(f"Canvas size: {canvas.winfo_reqwidth()}, {canvas.winfo_reqheight()}")
                     
                 # TODO: this may be a naive way to handle tk canvas, and canvas might
@@ -159,21 +148,33 @@ def main():
                     canvas.image = tk_image # keeping a reference for later
             except FileNotFoundError:
                 print(f"Error: file \'{currentImage}\' not found. Please provide valid image path and name.")
-            currentImage = sequencer.next_file()
-            root.after((1000 * poseDuration),update_screen, currentImage)
 
-    update_screen(currentImage)
+            imageLabel.config(text = shortImageName)
+            currentImage = sequencer.next_file()
+            remainingSeconds = poseDuration
+            timerLabel.config (text = timestring(remainingSeconds))
+            remainingSeconds -=1
+        else:
+            if (remainingSeconds > 0):
+                remainingSeconds -=1
+        finished = (remainingSeconds == 0 )and (currentImage == None ) 
+        if finished:
+            print (f"finished: {finished}") 
+
+        if (not finished):
+            root.after(1000, update_screen, currentImage, timerLabel, imageLabel, poseDuration,remainingSeconds)
+    ######
+    ###### End Inline Screen update
+    ######
+
+    # start with initial value of 0 to load immediately
+    update_screen(currentImage, timerLabel, imageLabel, poseDuration, 0)
 
     root.mainloop()
-    # print("Posetimer:  Starting pose sequence")
-    # print(f"Displaying poses from  {currentPath} for {poseDuration} seconds")
-
-    # print (f"Now displaying:  {currentImage}")
-    # with Image.open(currentImage) as img:
-    #     img.load()
-    #     img.show()
-    
-   
+#######################################################
+##### End Main    
+#######################################################
+  
 
 main()
 

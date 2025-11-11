@@ -7,8 +7,8 @@ def fit_image(size, canvas_size):
     # cheight= c.winfo_height()
     cwidth = canvas_size[0]
     cheight = canvas_size[1]
-    print(f"Fit Image: original size: {size}")
-    print(f" Fitting to: ({cwidth},{cheight})")
+    #print(f"Fit Image: original size: {size}")
+    #print(f" Fitting to: ({cwidth},{cheight})")
 
     oldsize = size
     newsize = size
@@ -37,12 +37,12 @@ def fit_image(size, canvas_size):
     fit_to_width = (image_aspect > canvas_aspect)
 
     if (fit_to_width):
-        print("fitting to width")
+        #print("fitting to width")
         new_width = int(cwidth)
         new_height = int((height * new_width) / width)
         newsize = (new_width, new_height)
     else:
-        print("fitting to height")
+        #print("fitting to height")
         new_height = int(cheight)
         new_width = int((width * new_height)/height)
         newsize = (new_width, new_height)
