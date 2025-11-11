@@ -23,10 +23,49 @@ options:
 ```
 
 # Installation instructions:
-(tbd)
-Probably will be using Pillow and TKinter, playsound for sound playback
+
+
+## dependencies
+I recommend that one builds this in a python venv, as there are some version dependencies
+between Tkinder and different versions of python.  I had some issues installing on my Mac running Tahoe because the version of Python they ship with MacOS was not compatible with the most recent Tcl/Tk releases.  Apple's python gets the frameworks from Command Line Tools distribution, so if you've manually installed tkinder it will be put somewhere else.  Check out INSTALL.md for some tips, including Windows and Linux.
+
+To set up a venv (on the Mac, the syntax for Windows is different):
+```
+python3 -m venv .venv
+source .venv/bin/activate
+```
+I don't currently have a requirements.txt file in the project.
+
+I'm using 
+- python 3.13.9
+- Tcl/Tk 8.6.17
+These versions are compatible, I had to install these via homebrew into the venv.
+
+
+```
+% pip list
+Package Version
+------- -------
+pillow  12.0.0
+pip     25.2
+```
+
+
+## testing/running
+You should be able to run it from the root directory using
+`./posetimer.sh`
+To see all options, try 
+`./posetimer.sh -h`
+The shell script passes args down to the python script.
+
+I've included a test script for running the unit tests.
+`./test.sh`
+This will run unit tests for the components that have them.
 
 # Roadmap TO MVP
+For my current purposes, the MVP is the feature set needed to display folders of poses in 
+my archive, putting them up for a specified time for quickdraw.
+
 1. ~~command line argument handling~~
 2. ~~set default values for ordering, folder path, length of pose, window size~~
 1. ~~set up image viewer and ability to display single image  (initial selection is in ./images)~~
@@ -37,26 +76,32 @@ Probably will be using Pillow and TKinter, playsound for sound playback
 6. ~~files in directory order~~
 7. ~~assure that files are images, skip non-image file~~
 8. ~~file list sequencer (once, loop and random mode)~~
-9. Add GUI titles for countdown timer and current file name
-10. Refactor update_screen() to manage countdown as well as image changes.
+9. ~~Add GUI label for countdown timer~~
+10. Display current file name  (Code there, need to learn more about tk layout, also not MVP)
+10. ~~Refactor update_screen() to manage countdown as well as image changes.~~
 11. ~~Add command line args for screen size, and set a sensible default in code.~~
-12. Update the posetimer.py script to pass args
-13. build a second test script which runs through different command line args
-11. Further functional testing with local images.
+12. ~~Update the posetimer.py script to pass args~~
+11. ~~Further functional testing with local images.~~
 
-# Extensions
+# Possible future enhancements, by desirability
+The upgrade path I have in mind is to make it easier to repeat a session I've done before and to
+perhaps hand edit playlists.  
+
+- A use case of selecting a session to draw with a gui, already I think it will save a lot of time
+- also a use case of taking any current playlist and saving it in a list of favorites that I can recall later.
+
+1. incorporate a GUI file picker to select folder
+2. Get the current file name label working (need to spend more time learning tk layout techniques)
+3. make the countdown timer bigger and bolder 
+3. Label showing total number of images and current count, when appropriate
 1. set default values for ordering, folder path, number of seconds or minutes in .poserc file
-2. incorporate a GUI file picker to select folder
 3. play sound when image changes and 80% point in pose
-4. use tkinter to provide enhanced GUI layout
-5. GUI Add large countdown timer
-6. in directory mode, show 1 of n counter
-7. Enhanced transition between images if needed (crossfade)
-8. show list of poses and current image name?
+3. Change timer font color to red at end of pose
+4. split layout with file list and image (list of poses and image name)?
+7. Enhanced transition between images, like cross fades or fading at end?
 10. enhanced file list management - multiple list management, and named lists
-11. save file lists/directories in .poserc
+11. save file lists/directories in .poserc or .poselists file that can be hand edited
 12. build custom file list across directories?
-13. Export a list playback as a video?
    
 
 
