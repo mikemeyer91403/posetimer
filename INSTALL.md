@@ -39,16 +39,16 @@ source .venv/bin/activate
 - Install Python 3.13.9 from python.org.
 - During install, select “Install for all users” and “Add python to PATH”.
 - Tkinter is included; if import fails, reinstall using the official installer.
-### Install dependencies
+## Install dependencies
 ```
 pip install --upgrade pip
 pip install -r requirements.txt
 ```
-### Verify environment
+## Verify environment
 ```
 python -c "import tkinter as tk; import PIL; print('Environment OK')"
 ```
-### Run
+## Run
 ```
 python path/to/your_entrypoint.py
 ```
