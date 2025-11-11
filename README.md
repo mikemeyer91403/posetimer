@@ -25,23 +25,19 @@ options:
 # Installation instructions:
 
 
-## dependencies
+## Dependencies
 I recommend that one builds this in a python venv, as there are some version dependencies
-between Tkinder and different versions of python.  I had some issues installing on my Mac running Tahoe because the version of Python they ship with MacOS was not compatible with the most recent Tcl/Tk releases.  Apple's python gets the frameworks from Command Line Tools distribution, so if you've manually installed tkinder it will be put somewhere else.  Check out INSTALL.md for some tips, including Windows and Linux.
+between Tkinder and different versions of python.  I had some issues installing on my Mac running Tahoe because the version of Python they ship with MacOS was not compatible with the most recent Tcl/Tk releases.  Apple's python gets the frameworks from Command Line Tools distribution, so if you've manually installed tkinder it will be put somewhere else.  Check out `INSTALL.md` for some tips, including Windows and Linux.
 
 To set up a venv (on the Mac, the syntax for Windows is different):
 ```
 python3 -m venv .venv
 source .venv/bin/activate
 ```
-I don't currently have a requirements.txt file in the project.
-
 I'm using 
 - python 3.13.9
 - Tcl/Tk 8.6.17
-These versions are compatible, I had to install these via homebrew into the venv.
-
-
+These versions are compatible, I had to install these via homebrew into the venv.  Instructions on how to do that are in the `INSTALL.md` file.
 ```
 % pip list
 Package Version

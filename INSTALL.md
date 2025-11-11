@@ -49,9 +49,15 @@ pip install -r requirements.txt
 python -c "import tkinter as tk; import PIL; print('Environment OK')"
 ```
 ## Run
+From the project root, you can use the posetimer.sh script to run:
 ```
-python path/to/your_entrypoint.py
+./posetimer.sh
 ```
+You can also run the script directly from the root as:
+```
+python3 src/posetimer.py
+```
+In either case, add the `--help` flag to see the full list of options, but the default values will run a sequence of whatever images are installed in the `images/` directory.
 # Notes on dependencies
 - tkinter is part of the stdlib and won’t appear in requirements.txt.
 - requirements.txt only pins pip-managed packages (e.g., Pillow).
