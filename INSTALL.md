@@ -1,6 +1,6 @@
 # Install and Run
 
-This project uses Python 3.13.9 and depends on Pillow. Tkinter is part of the Python standard library but depends on the system’s Tk. On macOS “Tahoe”, ensure a compatible Python/Tk combo is used.
+This project uses Python 3.13.9 and depends on Pillow. Tkinter is part of the Python standard library but depends on the system’s Tk. On macOS “Tahoe”, ensure a compatible Python/Tk combo is used.  
 
 ## Requirements
 - Python 3.13.9
@@ -53,5 +53,5 @@ python -c "import tkinter as tk; import PIL; print('Environment OK')"
 python path/to/your_entrypoint.py
 ```
 # Notes on dependencies
-tkinter is part of the stdlib and won’t appear in requirements.txt.
-requirements.txt only pins pip-managed packages (e.g., Pillow).
+- tkinter is part of the stdlib and won’t appear in requirements.txt.
+- requirements.txt only pins pip-managed packages (e.g., Pillow).
