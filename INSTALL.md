@@ -15,9 +15,17 @@ We recommend Homebrew Python to avoid Tk version issues.
 # Install Python 3.13 via Homebrew
 brew install python@3.13
 
+# Note where Homebrew tells you python is installed, and where symlinks to 'python3', etc are.
+# this appears to be dependent on macOS version; it's not the same on Sequoia, for instance
+# On some versions of macOS, you may also need to install python-tk as a separate package in homebrew:
+brew install python-tk@3.13 
+
 # Create and activate a virtual environment
+# use the python path that homebrew gave you if not what's below (my Sequoia install went to /usr/local/bin/python3.13 instead):
 /opt/homebrew/bin/python3.13 -m venv .venv
 source .venv/bin/activate
+# Test to see if you have tkinter - this will raise an error if tkinter isn't found
+python -c "import tkinter as tk"
 
 # Optionally ensure Tk is available (only if tkinter import fails)
 # brew install tcl-tk
